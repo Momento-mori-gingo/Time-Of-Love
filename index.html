@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Since 30 October 2025</title>
+
     <style>
         body {
             margin: 0;
@@ -9,24 +10,52 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: black;
+            background: url("background.gif") no-repeat center center fixed;
+            background-size: cover;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
+            overflow: hidden;
         }
+
         .container {
             font-size: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
         }
+
         h1 {
             margin-bottom: 20px;
         }
+
         .time {
             font-size: 1.5rem;
             margin-top: 10px;
         }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        .heart {
+            position: fixed;
+            bottom: 0;
+            animation: floatUp 4s linear forwards;
+            pointer-events: none;
+        }
     </style>
 </head>
+
 <body>
+
     <div class="container">
         <h1>Time Since October 30, 2025</h1>
         <div class="time" id="counter"></div>
@@ -45,39 +74,45 @@
             let minutes = now.getMinutes() - startDate.getMinutes();
             let seconds = now.getSeconds() - startDate.getSeconds();
 
-            if (seconds < 0) {
-                seconds += 60;
-                minutes--;
-            }
-            if (minutes < 0) {
-                minutes += 60;
-                hours--;
-            }
-            if (hours < 0) {
-                hours += 24;
-                days--;
-            }
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
             if (days < 0) {
                 const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
                 days += prevMonth.getDate();
                 months--;
             }
-            if (months < 0) {
-                months += 12;
-                years--;
-            }
+            if (months < 0) { months += 12; years--; }
 
             document.getElementById("counter").innerHTML =
-                `${years} Years<br>` +
-                `${months} Months<br>` +
-                `${days} Days<br>` +
-                `${hours} Hours<br>` +
-                `${minutes} Minutes<br>` +
-                `${seconds} Seconds`;
+                years + " Years<br>" +
+                months + " Months<br>" +
+                days + " Days<br>" +
+                hours + " Hours<br>" +
+                minutes + " Minutes<br>" +
+                seconds + " Seconds";
+        }
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤";
+
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
         }
 
         setInterval(updateCounter, 1000);
+        setInterval(createHeart, 1000);
+
         updateCounter();
     </script>
+
 </body>
 </html>
