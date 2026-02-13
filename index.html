@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Since 30 October 2025</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            font-size: 2rem;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .time {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Time Since October 30, 2025</h1>
+        <div class="time" id="counter"></div>
+    </div>
+
+    <script>
+        const startDate = new Date("2025-10-30T00:00:00");
+
+        function updateCounter() {
+            const now = new Date();
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+            let hours = now.getHours() - startDate.getHours();
+            let minutes = now.getMinutes() - startDate.getMinutes();
+            let seconds = now.getSeconds() - startDate.getSeconds();
+
+            if (seconds < 0) {
+                seconds += 60;
+                minutes--;
+            }
+            if (minutes < 0) {
+                minutes += 60;
+                hours--;
+            }
+            if (hours < 0) {
+                hours += 24;
+                days--;
+            }
+            if (days < 0) {
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+                months--;
+            }
+            if (months < 0) {
+                months += 12;
+                years--;
+            }
+
+            document.getElementById("counter").innerHTML =
+                `${years} Years<br>` +
+                `${months} Months<br>` +
+                `${days} Days<br>` +
+                `${hours} Hours<br>` +
+                `${minutes} Minutes<br>` +
+                `${seconds} Seconds`;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+    </script>
+</body>
+</html>
