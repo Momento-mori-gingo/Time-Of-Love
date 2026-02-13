@@ -13,7 +13,8 @@
             font-family: Arial, sans-serif;
             text-align: center;
             overflow: hidden;
-            color: black;
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
 
         /* Video Background */
@@ -27,12 +28,8 @@
             z-index: -1;
         }
 
-        /* Glass container */
         .container {
             font-size: 2rem;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 30px;
-            border-radius: 15px;
         }
 
         h1 {
@@ -44,7 +41,7 @@
             margin-top: 10px;
         }
 
-        /* Heart animation */
+        /* Floating animation */
         @keyframes floatUp {
             0% {
                 transform: translateY(0);
@@ -56,24 +53,24 @@
             }
         }
 
-        .heart {
+        .floating {
             position: fixed;
             bottom: 0;
-            animation: floatUp 4s linear forwards;
+            animation: floatUp 5s linear forwards;
             pointer-events: none;
-            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Video Background -->
+    <!-- Background Video -->
     <video autoplay muted loop id="bg-video">
         <source src="background.mp4" type="video/mp4">
     </video>
 
-    <!-- Content -->
+    <!-- Text Content -->
     <div class="container">
         <h1>Time Since October 30, 2025</h1>
         <div class="time" id="counter"></div>
@@ -111,23 +108,32 @@
                 seconds + " Seconds";
         }
 
-        function createHeart() {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.innerHTML = "❤";
+        function createFloating() {
+            const element = document.createElement("div");
+            element.classList.add("floating");
 
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+            // Randomly choose heart or Hana
+            if (Math.random() < 0.5) {
+                element.innerHTML = "❤";
+                element.style.color = "red";
+                element.style.fontSize = (Math.random() * 20 + 20) + "px";
+            } else {
+                element.innerHTML = "Hana";
+                element.style.color = "pink";
+                element.style.fontSize = (Math.random() * 10 + 20) + "px";
+            }
 
-            document.body.appendChild(heart);
+            element.style.left = Math.random() * 100 + "vw";
+
+            document.body.appendChild(element);
 
             setTimeout(() => {
-                heart.remove();
-            }, 4000);
+                element.remove();
+            }, 5000);
         }
 
         setInterval(updateCounter, 1000);
-        setInterval(createHeart, 1000);
+        setInterval(createFloating, 1200);
 
         updateCounter();
     </script>
