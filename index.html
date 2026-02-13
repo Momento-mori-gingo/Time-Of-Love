@@ -1,144 +1,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Since 30 October 2025</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            overflow: hidden;
-            color: white;
-            text-shadow: 0 0 15px rgba(0,0,0,0.8);
-        }
+<title>Forever Counter</title>
 
-        /* Background Video */
-        #bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: -1;
-        }
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: black;
+    text-align: center;
+}
 
-        .container {
-            font-size: 2rem;
-            padding: 20px;
-        }
+/* Background Video */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
+}
 
-        h1 {
-            margin-bottom: 20px;
-        }
+/* Counter Text */
+#counter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    font-weight: bold;
+}
 
-        .time {
-            font-size: 1.5rem;
-        }
+/* Floating Hearts + Text */
+.floating {
+    position: fixed;
+    bottom: -50px;
+    font-size: 24px;
+    animation: floatUp linear forwards;
+}
 
-        /* Floating animation */
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh);
-                opacity: 0;
-            }
-        }
-
-        .floating {
-            position: fixed;
-            bottom: 0;
-            animation: floatUp 5s linear forwards;
-            pointer-events: none;
-            font-weight: bold;
-        }
-    </style>
+@keyframes floatUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- Mobile-Safe Background Video -->
-    <video autoplay muted loop playsinline id="bg-video">
-        <source src="background.mp4" type="video/mp4">
-    </video>
+<video autoplay muted loop playsinline webkit-playsinline id="bg-video">
+    <source src="background.mp4" type="video/mp4">
+</video>
 
-    <!-- Main Content -->
-    <div class="container">
-        <h1>Time Since October 30, 2025</h1>
-        <div class="time" id="counter"></div>
-    </div>
+<div id="counter"></div>
 
-    <script>
-        const startDate = new Date("2025-10-30T00:00:00");
+<script>
 
-        function updateCounter() {
-            const now = new Date();
+/* ===== TIME COUNTER ===== */
+const startDate = new Date("2025-10-30T00:00:00");
 
-            let years = now.getFullYear() - startDate.getFullYear();
-            let months = now.getMonth() - startDate.getMonth();
-            let days = now.getDate() - startDate.getDate();
-            let hours = now.getHours() - startDate.getHours();
-            let minutes = now.getMinutes() - startDate.getMinutes();
-            let seconds = now.getSeconds() - startDate.getSeconds();
+function updateCounter() {
+    const now = new Date();
+    const diff = now - startDate;
 
-            if (seconds < 0) { seconds += 60; minutes--; }
-            if (minutes < 0) { minutes += 60; hours--; }
-            if (hours < 0) { hours += 24; days--; }
-            if (days < 0) {
-                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += prevMonth.getDate();
-                months--;
-            }
-            if (months < 0) { months += 12; years--; }
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const years = Math.floor(days / 365);
+    const months = Math.floor(days / 30);
 
-            document.getElementById("counter").innerHTML =
-                years + " Years<br>" +
-                months + " Months<br>" +
-                days + " Days<br>" +
-                hours + " Hours<br>" +
-                minutes + " Minutes<br>" +
-                seconds + " Seconds";
-        }
+    document.getElementById("counter").innerHTML =
+        years + " Years<br>" +
+        months + " Months<br>" +
+        days + " Days<br>" +
+        hours + " Hours<br>" +
+        minutes + " Minutes<br>" +
+        seconds + " Seconds";
+}
 
-        function createFloating() {
-            const element = document.createElement("div");
-            element.classList.add("floating");
+setInterval(updateCounter, 1000);
 
-            // 90% hearts, 10% ILoveHana
-            if (Math.random() > 0.9) {
-                element.innerHTML = "ILoveHana";
-                element.style.color = "pink";
-                element.style.fontSize = (Math.random() * 10 + 20) + "px";
-            } else {
-                element.innerHTML = "❤";
-                element.style.color = "red";
-                element.style.fontSize = (Math.random() * 20 + 20) + "px";
-            }
 
-            element.style.left = Math.random() * 100 + "vw";
+/* ===== FLOATING HEARTS + ILoveHana ===== */
 
-            document.body.appendChild(element);
+function createFloating() {
+    const element = document.createElement("div");
 
-            setTimeout(() => {
-                element.remove();
-            }, 5000);
-        }
+    const isText = Math.random() < 0.15; // 15% chance for ILoveHana
 
-        setInterval(updateCounter, 1000);
-        setInterval(createFloating, 200);  // more hearts
+    element.className = "floating";
+    element.style.left = Math.random() * 100 + "vw";
+    element.style.animationDuration = (4 + Math.random() * 4) + "s";
 
-        updateCounter();
-    </script>
+    if (isText) {
+        element.innerHTML = "ILoveHana";
+        element.style.color = "white";
+        element.style.fontSize = "18px";
+    } else {
+        element.innerHTML = "❤";
+        element.style.color = "red";
+    }
+
+    document.body.appendChild(element);
+
+    setTimeout(() => {
+        element.remove();
+    }, 8000);
+}
+
+/* More hearts, less text */
+setInterval(createFloating, 400);
+
+</script>
 
 </body>
 </html>
