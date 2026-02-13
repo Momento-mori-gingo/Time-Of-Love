@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Since 30 October 2025</title>
 
     <style>
@@ -14,22 +16,23 @@
             text-align: center;
             overflow: hidden;
             color: white;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            text-shadow: 0 0 15px rgba(0,0,0,0.8);
         }
 
-        /* Video Background */
+        /* Background Video */
         #bg-video {
             position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             object-fit: cover;
             z-index: -1;
         }
 
         .container {
             font-size: 2rem;
+            padding: 20px;
         }
 
         h1 {
@@ -38,7 +41,6 @@
 
         .time {
             font-size: 1.5rem;
-            margin-top: 10px;
         }
 
         /* Floating animation */
@@ -65,12 +67,12 @@
 
 <body>
 
-    <!-- Background Video -->
-    <video autoplay muted loop id="bg-video">
+    <!-- Mobile-Safe Background Video -->
+    <video autoplay muted loop playsinline id="bg-video">
         <source src="background.mp4" type="video/mp4">
     </video>
 
-    <!-- Text Content -->
+    <!-- Main Content -->
     <div class="container">
         <h1>Time Since October 30, 2025</h1>
         <div class="time" id="counter"></div>
@@ -112,15 +114,15 @@
             const element = document.createElement("div");
             element.classList.add("floating");
 
-            // Randomly choose heart or Hana
-            if (Math.random() < 0.9) {
+            // 90% hearts, 10% ILoveHana
+            if (Math.random() > 0.9) {
+                element.innerHTML = "ILoveHana";
+                element.style.color = "pink";
+                element.style.fontSize = (Math.random() * 10 + 20) + "px";
+            } else {
                 element.innerHTML = "❤";
                 element.style.color = "red";
                 element.style.fontSize = (Math.random() * 20 + 20) + "px";
-            } else {
-                element.innerHTML = "ILoveHana";
-                element.style.color = "blue";
-                element.style.fontSize = (Math.random() * 10 + 20) + "px";
             }
 
             element.style.left = Math.random() * 100 + "vw";
@@ -133,14 +135,13 @@
         }
 
         setInterval(updateCounter, 1000);
-        setInterval(createFloating, 1200);
+        setInterval(createFloating, 200);  // more hearts
 
         updateCounter();
     </script>
 
 </body>
 </html>
-
 
 
 
