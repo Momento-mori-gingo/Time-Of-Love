@@ -93,24 +93,36 @@ function updateCounter() {
 setInterval(updateCounter, 1000);
 
 
-/* ===== FLOATING HEARTS + ILoveHana ===== */
+<script>
+
+/* ===== FLOATING HEARTS + TEXT ===== */
 
 function createFloating() {
     const element = document.createElement("div");
-
-    const isText = Math.random() < 0.15; // 15% chance for ILoveHana
-
     element.className = "floating";
-    element.style.left = Math.random() * 100 + "vw";
-    element.style.animationDuration = (4 + Math.random() * 4) + "s";
 
-    if (isText) {
+    element.style.left = Math.random() * 100 + "vw";
+    element.style.animationDuration = (5 + Math.random() * 3) + "s";
+
+    const random = Math.random();
+
+    if (random < 0.75) {
+        // 75% Hearts (most common)
+        element.innerHTML = "❤";
+        element.style.color = "red";
+        element.style.fontSize = (20 + Math.random() * 15) + "px";
+
+    } else if (random < 0.90) {
+        // 15% ILoveHana
         element.innerHTML = "ILoveHana";
         element.style.color = "white";
         element.style.fontSize = "18px";
+
     } else {
-        element.innerHTML = "❤";
-        element.style.color = "red";
+        // 10% HanaLovesKrish (rarest)
+        element.innerHTML = "HanaLovesKrish";
+        element.style.color = "pink";
+        element.style.fontSize = "18px";
     }
 
     document.body.appendChild(element);
@@ -120,13 +132,16 @@ function createFloating() {
     }, 8000);
 }
 
-/* More hearts, less text */
-setInterval(createFloating, 400);
+/* Slower spawn so words are readable */
+setInterval(createFloating, 600);
+
+</script>
 
 </script>
 
 </body>
 </html>
+
 
 
 
