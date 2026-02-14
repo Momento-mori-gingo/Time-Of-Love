@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Forever Counter</title>
+<title>Since October 30, 2025</title>
 
 <style>
 body {
     margin: 0;
     overflow: hidden;
     font-family: Arial, sans-serif;
-    color: black;
     text-align: center;
+    color: white;
 }
 
 /* Background Video */
@@ -34,14 +35,16 @@ body {
     transform: translate(-50%, -50%);
     font-size: 22px;
     font-weight: bold;
+    text-shadow: 0 0 15px rgba(0,0,0,0.8);
 }
 
-/* Floating Hearts + Text */
+/* Floating Animation */
 .floating {
     position: fixed;
     bottom: -50px;
-    font-size: 24px;
     animation: floatUp linear forwards;
+    pointer-events: none;
+    font-weight: bold;
 }
 
 @keyframes floatUp {
@@ -59,31 +62,30 @@ body {
 
 <body>
 
+<!-- Background Video -->
 <video autoplay muted loop playsinline webkit-playsinline id="bg-video">
     <source src="background.mp4" type="video/mp4">
 </video>
 
+<!-- Counter -->
 <div id="counter"></div>
 
 <script>
 
 /* ===== TIME COUNTER ===== */
+
 const startDate = new Date("2025-10-30T00:00:00");
 
 function updateCounter() {
     const now = new Date();
     const diff = now - startDate;
 
-    const seconds = Math.floor(diff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const years = Math.floor(days / 365);
-    const months = Math.floor(days / 30);
+    const seconds = Math.floor(diff / 1000) % 60;
+    const minutes = Math.floor(diff / (1000 * 60)) % 60;
+    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     document.getElementById("counter").innerHTML =
-        years + " Years<br>" +
-        months + " Months<br>" +
         days + " Days<br>" +
         hours + " Hours<br>" +
         minutes + " Minutes<br>" +
@@ -91,11 +93,10 @@ function updateCounter() {
 }
 
 setInterval(updateCounter, 1000);
+updateCounter();
 
 
-<script>
-
-/* ===== FLOATING HEARTS + TEXT ===== */
+/* ===== FLOATING ELEMENTS ===== */
 
 function createFloating() {
     const element = document.createElement("div");
@@ -107,7 +108,7 @@ function createFloating() {
     const random = Math.random();
 
     if (random < 0.75) {
-        // 75% Hearts (most common)
+        // 75% Hearts
         element.innerHTML = "❤";
         element.style.color = "red";
         element.style.fontSize = (20 + Math.random() * 15) + "px";
@@ -119,7 +120,7 @@ function createFloating() {
         element.style.fontSize = "18px";
 
     } else {
-        // 10% HanaLovesKrish (rarest)
+        // 10% HanaLovesKrish
         element.innerHTML = "HanaLovesKrish";
         element.style.color = "pink";
         element.style.fontSize = "18px";
@@ -132,15 +133,14 @@ function createFloating() {
     }, 8000);
 }
 
-/* Slower spawn so words are readable */
-setInterval(createFloating, 600);
-
-</script>
+/* Slower spawn so words stay visible */
+setInterval(createFloating, 700);
 
 </script>
 
 </body>
 </html>
+
 
 
 
